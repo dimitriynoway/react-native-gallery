@@ -1,21 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import List from './pages/List';
+import store from './store';
+import { NavigationContainer } from '@react-navigation/native';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import { enableScreens } from 'react-native-screens';
+import Photo from './pages/Photo';
+
+enableScreens();
+
+const Stack = createSharedElementStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <Provider store={store}>
+            <NavigationContainer>
+                <Stack.Navigator headerMode='none' initialRouteName='List'>
+                    <Stack.Screen name='List' component={List} />
+                    <Stack.Screen
+                        name='Photo'
+                        component={Photo}
+                        options={() => ({
+                            // transitionSpec: {
+                            //     open: {
+                            //         animation: 'timing',
+                            //         config: { duration: 500 }
+                            //     },
+                            //     close: {
+                            //         animation: 'spring',
+                            //         config: { duration: 300 }
+                            //     }
+                            // },
+                            //!Optionally (for smoother animation)
+                            //uncomment, but could work worse with freezes
+                            cardStyleInterpolator: ({
+                                current: { progress }
+                            }) => {
+                                return {
+                                    cardStyle: {
+                                        opacity: progress
+                                    }
+                                };
+                            }
+                        })}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
