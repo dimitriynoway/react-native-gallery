@@ -1,5 +1,5 @@
 # react-native-gallery
-Here is one errors that does not reflect on working process
+Here is one error that does not reflect on working process
 
 "currentlyFocusedField is deprecated and will be removed in a future release. Use currentlyFocusedInput"
 
